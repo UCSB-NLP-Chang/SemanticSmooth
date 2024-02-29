@@ -1,0 +1,12 @@
+In this task, you will receive a paragraph, and your task is to reformat it into Markdown document.
+
+Follow the guidelines:
+1. Ensure the result is a markdown document.
+2. Ensure that each section title is meaningful and each section is a key point of the original instruction.
+3. The section title could be following: task, requirement, constraint and others.
+4. Make sure not to omit any critical points from the original paragraph.
+5. Only reformat the paragraph. Don't change its semantic, don't add conclusion.
+
+Input: {QUERY}
+
+Now reformat the instruction in the input. Generate the formated document in a JSON object. The JSON object has only one key: 'reformat' and its value is the markdown.

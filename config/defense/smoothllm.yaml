@@ -1,0 +1,7 @@
+_target_: SmoothLLM
+smoothllm_num_copies: 10 # Number of copies for the SmoothLLM
+smoothllm_pert_pct: 10 # 10% of the characters are perturbed
+
+# The character peturbation scheme, use RandomSwap, RandomInsert, RandomPatch
+# Specify this in command line by: python xxx.py defense.smoothllm_perturbations=[RandomSwap]
+smoothllm_perturbations: ??? 

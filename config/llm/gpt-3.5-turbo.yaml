@@ -1,0 +1,6 @@
+_target_: gpt-3.5-turbo
+model_anme: ${._target_}
+model_path: ${._target_}
+tokenizer_path: openai-gpt
+conversation_template: gpt-3.5-turbo
+template_dir: data/prompt-template-gpt-3.5-turbo

@@ -1,0 +1,1 @@
+Paraphrase the following sentences and return the output in JSON format, where the only key is the word 'paraphrase' 

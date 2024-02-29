@@ -1,0 +1,7 @@
+_target_: vicuna
+model_name: vicuna
+model_path: ${BASEDIR}/vicuna-13b-v1.5
+tokenizer_path: ${BASEDIR}/vicuna-13b-v1.5
+conversation_template: vicuna-v1.5
+# Path to the semantic perturbation prompts
+template_dir: data/prompt-template-vicuna

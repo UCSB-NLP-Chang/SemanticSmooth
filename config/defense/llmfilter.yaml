@@ -1,0 +1,5 @@
+_target_: LLMFilter
+
+# Generation config for the filter model
+filter_temperature: 0.0
+filter_max_num_tokens: 100

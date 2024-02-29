@@ -1,0 +1,15 @@
+_target_: SemanticSmoothLLM
+smoothllm_num_copies: 10 # Number of copies for the SmoothLLM
+
+# Generation config for the perturbation 
+perturbation_temperature: 0.5 
+perturbation_top_p: 0.5
+perturbation_max_num_tokens: 2048
+
+# The semantic peturbation scheme, use Summarize/Paraphrase ... Full list in lib/perturbations.py
+# Specify this in command line by: 
+# Single type defense: python xxx.py defense.smoothllm_perturbations=[Summarize] 
+# Multiple type defense: python xxx.py defense.smoothllm_perturbations=[Summarize, Paraphrase] 
+smoothllm_perturbations: ???
+# Specify the path to the selector
+policy_path: ???

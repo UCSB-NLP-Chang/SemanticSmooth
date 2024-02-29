@@ -1,0 +1,7 @@
+_target_: llama-2-vllm
+model_name: llama-2
+model_path: ${BASEDIR}/Llama-2-7b-chat-hf
+tokenizer_path: ${BASEDIR}/Llama-2-7b-chat-hf
+conversation_template: llama-2
+# Path to the semantic perturbation prompts
+template_dir: data/prompt-template-llama-2

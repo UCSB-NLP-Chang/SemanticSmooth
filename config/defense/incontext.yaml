@@ -1,0 +1,4 @@
+_target_: InContextDefense
+
+# Nubmer of in-context examples
+incontext_nshot: 2

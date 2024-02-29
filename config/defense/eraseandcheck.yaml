@@ -1,0 +1,11 @@
+_target_: EraseAndCheck
+
+# Generation config for filter llm
+filter_temperature: 0.0
+filter_max_num_tokens: 100
+
+# Erase and check configs
+erase_and_check_mode: suffix
+erase_and_check_max_erase: 20
+erase_and_check_randomized: False
+erase_and_check_prompt_sampling_ratio: 0.2

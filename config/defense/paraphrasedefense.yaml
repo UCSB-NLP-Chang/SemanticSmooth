@@ -1,0 +1,7 @@
+_target_: ParaphraseDefense
+
+# Generatio nconfig for the paraphrase model
+perturbation_temperature: 0.7
+perturbation_top_p: 1.0
+perturbation_max_num_tokens: 2048
+template_dir: data/baselinedefense/

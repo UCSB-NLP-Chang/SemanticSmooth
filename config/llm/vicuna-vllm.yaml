@@ -1,0 +1,6 @@
+_target_: vicuna-vllm
+model_name: vicuna
+model_path: ${BASEDIR}/vicuna-13b-v1.5
+tokenizer_path: ${BASEDIR}/vicuna-13b-v1.5
+conversation_template: vicuna-v1.5
+template_dir: data/prompt-template-vicuna

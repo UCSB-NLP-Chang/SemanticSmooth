@@ -1,0 +1,7 @@
+_target_: gpt-3.5-turbo-1106
+model_name: ${._target_}
+model_path: ${._target_}
+tokenizer_path: openai-gpt
+conversation_template: gpt-3.5-turbo
+# Path to the semantic perturbation prompts
+template_dir: data/prompt-template-gpt-3.5-turbo
