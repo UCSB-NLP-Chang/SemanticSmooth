@@ -1,0 +1,1 @@
+#! Copied from official implementation https://github.com/alexandrasouly/strongreject

@@ -7,6 +7,7 @@ import random
 import os
 from .language_models import GPT, create_llm_from_config
 from .tasks import ATTACKS, BENIGN_TASKS, ALL_ATTACKS
+from .strongreject.strongreject_evaluator import autograde_response
 from lib import model_configs
 from omegaconf import OmegaConf
 from datasets import load_dataset
@@ -183,3 +184,60 @@ class AlpacaEvalJudge(JudgeBase):
             is_return_instead_of_print=True,
         )
         return float(out[0][out[0].index == self.runname]['win_rate'])
+
+class QAJudge(JudgeBase):
+    def __init__(self, hparams):
+        super().__init__(hparams)
+        self.answerDict = {}
+
+    def get_pred(self, s, numchoice=2):
+        if "Choice A" in s or "Choix A" in s:
+            return 0
+        elif "Choice B" in s or "Choix B" in s:
+            return 1
+        elif "Choice C" in s or "Choix C" in s:
+            return 2
+        elif "Choice D" in s or "Choix D" in s:
+            return 3
+        else:
+            return random.choice(list(range(numchoice)))
+
+    def __call__(self, goals, queries, responses):
+        judge_res = [ ]
+        for g, r in zip(goals, responses):
+            pred = self.get_pred(r)
+            label = self.answerDict[g]
+            judge_res.append(pred == label)
+        return judge_res
+
+class PiQAJudge(QAJudge):
+    def __init__(self, hparams):
+        super().__init__(hparams)
+        data = load_dataset('piqa')['validation']
+
+        for sample in data:
+            key = sample['goal'] + sample['sol1'] + sample['sol2']
+            label = sample['label']
+            self.answerDict[key] = label
+
+class OpenBookQAJudge(QAJudge):
+    def __init__(self, hparams):
+        super().__init__(hparams)
+        data = load_dataset('openbookqa')['test']
+
+        for sample in data:
+            key = sample['question_stem'] + sample['choices']['text'][0]
+            # label = self.get_pred(sample['answerKey'], 4)
+            label = "ABCD".index(sample['answerKey'])
+            self.answerDict[key] = label
+
+class StrongRejectJudge(JudgeBase):
+    def __init__(self, hparams):
+        super().__init__(hparams)
+
+    def __call__(self, goals, queries, responses, return_all_outputs=False):
+        judge_res = []
+        for g, r in zip(goals, responses):
+            score = autograde_response(g, r)
+            judge_res.append(score.score_zero_to_one)
+        return judge_res

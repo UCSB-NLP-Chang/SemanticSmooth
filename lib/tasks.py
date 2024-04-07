@@ -147,6 +147,28 @@ class AutoDANTransfer(Tasks):
                     raw['target'][i],
                 )
             )
+
+class StrongReject(Tasks):
+
+
+    """ StrongReject dataset.
+
+    Title: A StrongREJECT for Empty Jailbreaks
+    Authors: Alexandra Souly, Qingyuan Lu, Dillon Bowen, Tu Trinh, Elvis Hsieh, Sana Pandey, Pieter Abbeel, Justin Svegliato, Scott Emmons, Olivia Watkins, Sam Toyer
+    Paper: https://arxiv.org/abs/2402.10260
+    Code&data: https://github.com/alexandrasouly/strongreject
+    """
+
+    def __init__(self, target_model, hparams, logfile='data/strongreject_dataset/strongreject_small_dataset.csv'):
+        super().__init__(target_model, hparams)
+
+        self.prompts = []
+        df = pd.read_csv(logfile)
+        for idx, line in df.iterrows():
+            line = line.to_dict()
+            self.prompts.append(
+                self.create_prompt(line['forbidden_prompt'], "", "")
+            )
             
 class InstructionFollowing(Tasks):
 
@@ -193,3 +215,66 @@ class AlpacaEval(Tasks):
                 )
             )
 
+
+class PiQA(Tasks):
+    def __init__(self, target_model, logfile=""):
+        super(PiQA, self).__init__(target_model)
+
+        self.prompts = []
+        QATemplate = (
+            "Question: {question}\n"
+            "Choice A: {choice1}\n"
+            "Choice B: {choice2}\n"
+            "Which of the above is the correct answer? You answer should be one of the following Choice A, Choice B. No explanations"
+        )
+        
+        data = load_dataset('piqa')['validation']
+        data = data.select(range(500)) # use the first 500
+
+        for idx, sample in enumerate(data):
+            query = QATemplate.format(**{
+                "question" : sample['goal'],
+                "choice1": sample['sol1'],
+                "choice2": sample['sol2'],
+            })
+            self.prompts.append(
+                self.create_prompt(
+                    query, # The useful one
+                    sample['goal'] + sample['sol1'] + sample['sol2'], #! will be used as the key for answer
+                    sample['label']
+                )
+            )
+
+        
+class OpenBookQA(Tasks):
+    def __init__(self, target_model, logfile=""):
+        super(OpenBookQA, self).__init__(target_model)
+
+        self.prompts = []
+
+        QATemplate = (
+            "Question: {question}\n"
+            "Choice A: {choice1}\n"
+            "Choice B: {choice2}\n"
+            "Choice C: {choice3}\n"
+            "Choice D: {choice4}\n"
+            "Which of the above is the correct answer? You answer shoud be one of the following Choice A, Choice B, Choice C, Choice D. No explanations."
+        )
+
+        data = load_dataset('openbookqa')['test']
+        for idx, sample in enumerate(data):
+            query = QATemplate.format(**{
+                "question": sample['question_stem'],
+                "choice1": sample['choices']['text'][0],
+                "choice2": sample['choices']['text'][1],
+                "choice3": sample['choices']['text'][2],
+                "choice4": sample['choices']['text'][3],
+            })
+
+            self.prompts.append(
+                self.create_prompt(
+                    query,
+                    sample['question_stem'] + sample['choices']['text'][0],
+                    sample['answerKey'],
+                )
+            )
