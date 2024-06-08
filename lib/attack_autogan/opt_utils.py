@@ -296,10 +296,8 @@ def get_score_autodan_low_memory(tokenizer, conv_template, instruction, target, 
                                                instruction=instruction,
                                                target=target,
                                                adv_string=item)
-        # import ipdb; ipdb.set_trace()
         if defense_model is not None:
             # gray-box access to the smoothed model
-            import ipdb; ipdb.set_trace()
             newconv = copy.deepcopy(conv_template)
             jbstr = item + " " + instruction
             newconv.append_message(role=newconv.roles[0], message=jbstr)

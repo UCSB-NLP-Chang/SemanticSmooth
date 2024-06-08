@@ -22,6 +22,7 @@ from lib.attack_pair import PAIRAttackLLM
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
 def main(hparams: ExperimentConfig):
+    hparams.task = 'GCG' #! By default we use harmful behaviors specified in GCG attack prompts
     OmegaConf.resolve(hparams)
     os.environ['OPENAI_API_KEY'] = hparams.OPENAI_API_KEY
     os.environ['BASEDIR'] = hparams.BASEDIR

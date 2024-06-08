@@ -1,5 +1,5 @@
 VIRTUAL_LLM_URL: "http://localhost:10000/v1/" # Default VLLM URL
-BASEDIR: '' 
+BASEDIR: 'model_weights' 
 OPENAI_API_KEY: ""
 seed: 42
 
@@ -7,8 +7,8 @@ defaults:
   - _self_
   - llm: ??? # The language model to use
   - defense: ??? # The defense algorithm to use
-  - task: ??? # The task to evaluate, including both attack and benign
-  - attack: ??? # The attack algorithm to use
+  - task: null # The task to evaluate, including both attack and benign
+  - attacker: null # The attack algorithm for adaptive_attack
 
 hydra:
   run:

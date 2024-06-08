@@ -4,4 +4,4 @@ target_max_num_tokens: 200
 target_temperature: 0.0
 target_top_p: 1.0
 # Path to the data file
-attack_log_file: data/GCG/vicuna.json
+logfile: data/GCG/vicuna.json

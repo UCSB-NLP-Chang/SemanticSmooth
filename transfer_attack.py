@@ -72,7 +72,6 @@ def main(hparams: ExperimentConfig):
                 all_outputs.append(output)
                 break
 
-    import ipdb; ipdb.set_trace()
     judge_res = eval_judge(all_goals, all_queries, all_outputs)
     LOGGER.info("Task result", judgeresult=judge_res)
      

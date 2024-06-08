@@ -1,7 +1,7 @@
-_target_: AlpacaEval
+_target_: InstructionFollowing
 # Target LLM generation config
 target_max_num_tokens: 1024
 target_temperature: 0.0
 target_top_p: 1.0
 # Path to the data file
-attack_log_file: data/google-instruction-following/full_input_data.jsonl
+logfile: data/google-instruction-following/full_input_data.jsonl

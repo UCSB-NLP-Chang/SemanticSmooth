@@ -1,7 +1,7 @@
-_target_: AutoDAN
+_target_: StrongReject
 # Target LLM generation config
 target_max_num_tokens: 200
 target_temperature: 0.0
 target_top_p: 1.0
 # Path to the data file
-logfile: data/AutoDAN/vicuna.json
+logfile: data/strongreject_dataset/strongreject_small_dataset.csv

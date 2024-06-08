@@ -269,7 +269,6 @@ class ParaphraseDefense(DefenseBase):
 
     def __init__(self, target_model, hparams):
         super(ParaphraseDefense, self).__init__(target_model, hparams)
-        import ipdb; ipdb.set_trace()
         pert_hparams = OmegaConf.create(hparams)
         pert_hparams['perturbation_llm'] = "gpt-3.5-turbo-1106.yaml"
         self.perturbation_fn = create_perturbation(
@@ -333,7 +332,6 @@ class LLMFilter(DetectionDefense):
         )
     
     def check_func(self, prompt):
-        # import ipdb; ipdb.set_trace()
         copied_prompt = copy.deepcopy(prompt)
         copied_prompt.perturbable_prompt = self.get_filter_prompt(prompt.perturbable_prompt) 
         if not isinstance(self.filter_llm, language_models.GPT):

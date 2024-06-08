@@ -12,4 +12,4 @@ perturbation_max_num_tokens: 2048
 # Multiple type defense: python xxx.py defense.smoothllm_perturbations=[Summarize, Paraphrase] 
 smoothllm_perturbations: ???
 # Specify the path to the selector
-policy_path: ???
+policy_path: null

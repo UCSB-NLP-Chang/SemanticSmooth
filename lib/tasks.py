@@ -9,17 +9,20 @@ from fastchat.model import get_conversation_template
 
 def create_task_from_config(task_config, target_llm):
     task_class = globals()[task_config._target_]
-    return task_class(target_llm)
+    return task_class(target_llm, logfile=task_config.get('logfile'))
 
 ATTACKS = [
     "GCG",
     "PAIR",
-    "AutoDANTransfer",
+    "AutoDAN",
+    "StrongRejct",
 ]
 
 BENIGN_TASKS = [
     "InstructionFollowing",
     "AlpacaEval",
+    "OpenBookQA",
+    "PiQA",
 ]
 
 ALL_ATTACKS = ATTACKS + BENIGN_TASKS
@@ -124,9 +127,9 @@ class PAIR(Tasks):
                 )
             )
 
-class AutoDANTransfer(Tasks):
+class AutoDAN(Tasks):
 
-    """ AutoDANTransfer attack.
+    """ AutoDAN attack.
 
     Title: AutoDAN: Generating Stealthy Jailbreak Prompts on Aligned Large Language Models
     Authors: Xiaogeng Liu, Nan Xu, Muhao Chen, Chaowei Xiao
@@ -135,7 +138,7 @@ class AutoDANTransfer(Tasks):
     """
 
     def __init__(self, target_model, logfile='data/AutoDAN/vicuna.json'):
-        super(AutoDANTransfer, self).__init__(target_model)
+        super(AutoDAN, self).__init__(target_model)
         
         raw = json.load(open(logfile))        
         self.prompts = []
