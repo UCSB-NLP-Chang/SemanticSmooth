@@ -1,0 +1,7 @@
+_target_: GCG
+# Target LLM generation config
+target_max_num_tokens: 200
+target_temperature: 0.0
+target_top_p: 1.0
+# Path to the data file
+logfile: data/GCG/vicuna.json #! GCG file contain advbench behaviors

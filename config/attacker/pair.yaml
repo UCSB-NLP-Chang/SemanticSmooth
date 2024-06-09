@@ -1,0 +1,4 @@
+_target_: PAIR
+attack_max_n_tokens: 500
+attack_max_n_attack_attempts: 10
+max_iter: 10

@@ -22,7 +22,6 @@ from lib.attack_pair import PAIRAttackLLM
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
 def main(hparams: ExperimentConfig):
-    hparams.task = 'GCG' #! By default we use harmful behaviors specified in GCG attack prompts
     OmegaConf.resolve(hparams)
     os.environ['OPENAI_API_KEY'] = hparams.OPENAI_API_KEY
     os.environ['BASEDIR'] = hparams.BASEDIR
@@ -54,22 +53,23 @@ def main(hparams: ExperimentConfig):
     )
     full_progress = progressbar.add_task("[cyan]AttackSample", total=len(attack_task.prompts))
 
-    if hparams.attacker == 'AutoDAN':
+    if hparams.attacker._target_ == 'AutoDAN':
         attacker = AutoDANAttackLLM(
             target_llm.model_name,
             batch_size=16,
         )
-    elif hparams.attacker == 'PAIR':
+    elif hparams.attacker._target_ == 'PAIR':
+        os.environ['BASEDIR'] = hparams['BASEDIR']
         attacker = PAIRAttackLLM(
             'vicuna',
-            hparams.attack_max_n_tokens,
-            max_n_attack_attempts=hparams.attack_max_n_attack_attempts, 
+            hparams.attacker.attack_max_n_tokens,
+            max_n_attack_attempts=hparams.attacker.attack_max_n_attack_attempts, 
             temperature=1, # default attack hyper-param
             top_p=0.9,  # default attack hyper-param
             conversation_num=1, # only one conversation
         )
     
-    for i, prompt in enumerate(tqdm(attack_task.prompt)):
+    for i, prompt in enumerate(tqdm(attack_task.prompts)):
         progressbar.update(full_progress, completed=i)
 
         # Reset the attacker's goal 
@@ -83,9 +83,9 @@ def main(hparams: ExperimentConfig):
             attack_iter = 0
             defense_response = ""
 
-            iter_bar = progressbar.add_task("[yellow] AttackIter", total=hparams.max_iter)
+            iter_bar = progressbar.add_task("[yellow] AttackIter", total=hparams.attacker.max_iter)
             # Multiple attempts for attacker
-            for attack_iter in range(hparams.max_iter):
+            for attack_iter in range(hparams.attacker.max_iter):
                 progressbar.update(iter_bar, completed=attack_iter)
 
                 # Generate attack string

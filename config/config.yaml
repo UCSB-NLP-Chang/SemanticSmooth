@@ -7,8 +7,8 @@ defaults:
   - _self_
   - llm: ??? # The language model to use
   - defense: ??? # The defense algorithm to use
-  - task: null # The task to evaluate, including both attack and benign
   - attacker: null # The attack algorithm for adaptive_attack
+  - task: null # The task to evaluate, including both attack and benign
 
 hydra:
   run:

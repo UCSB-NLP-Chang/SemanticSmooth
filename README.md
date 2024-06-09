@@ -22,7 +22,7 @@ python transfer_attack.py llm=${LLM} task=${TASK} defense=${ATTACK}
 
 For adaptive attack experiment:
 ```bash
-python adaptive_attack.py llm=${LLM} attacker=${ATTACK} defense=${DEFENSE}
+python adaptive_attack.py llm=${LLM} attacker=${ATTACK} defense=${DEFENSE} task=advbench
 ```
 
 For training the dynamic selection policy:

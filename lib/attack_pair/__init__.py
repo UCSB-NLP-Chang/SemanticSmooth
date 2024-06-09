@@ -13,6 +13,9 @@ from omegaconf import OmegaConf
 
 def get_model_path_and_template(model_name):
     BASEDIR = os.getenv("BASEDIR")
+    def remap_conf(conf):
+        conf['BASEDIR'] = conf
+        return BASEDIR
     full_model_dict={
         "gpt-4":{
             "path":"gpt-4",
@@ -23,11 +26,11 @@ def get_model_path_and_template(model_name):
             "template":"gpt-3.5-turbo"
         },
         "vicuna":{
-            "path": OmegaConf.load("data/llm/vicuna.yaml")['model_path'].replace("${BASEDIR}", BASEDIR),
+            "path": remap_conf(OmegaConf.load("config/llm/vicuna.yaml"))['model_path'],
             "template":"vicuna_v1.5"
         },
         "llama-2":{
-            "path": OmegaConf.load("data/llm/llama-2.yaml")['model_path'].replace("${BASEDIR}", BASEDIR),
+            "path": remap_conf(OmegaConf.load("config/llm/llama-2.yaml"))['model_path'],
             "template":"llama-2"
         },
     }
